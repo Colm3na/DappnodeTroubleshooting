@@ -11,6 +11,6 @@ Internal Server Error
 ~~~
 
 The error's window would be like:
-![Error 1](dappnode/img/error_prysm_1.png "Prysm Error 1")
+![Error 1](../img/error_prysm_1.png "Prysm Error 1")
 
 ## IPFS
