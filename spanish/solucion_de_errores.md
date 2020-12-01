@@ -1,8 +1,6 @@
-# Troubleshooting
+# Solución de errores
 
 The idea of this repo is to recopilate of the common errors that can appear and how solve them. All this information is obtained from discord's dappnode and forum.
-
-https://medium.com/dappnode/step-by-step-staking-for-dappnode-users-92fdf7db0d0d
 
 ## Prysm 
 
@@ -18,11 +16,11 @@ Internal Server Error
 The error's window would be like:
 ![Error 1](../img/error_prysm_1.png "Prysm Error 1")
 
-The way to solve this error is deleting the data from the validator, only the validator data and importing the keys again. In the next image we show what you have to delete, you have to be very careful with this.
+Para solucionar este error tan solo hay que eliminar los datos del validador, solamente el "validator data" e importar las keys una vez más. En la siguiente imagen se muestra claramente qué es lo que hay que eliminar.
 
 ![Delete only de validator data](../img/error_prysm_1_2.png "Prysm Error 1")
 
-After deleting the data, import again only the keystore-(...).json, NOT the entire folder.
+Después de eliminar los datos del validador, importa de nuevo solamente el archivo json "keystore-(...).json", no toda la carpeta.
 
 
 ## IPFS
