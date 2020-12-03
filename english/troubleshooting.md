@@ -65,7 +65,7 @@ There is an error with some kind of routers that does not support well the proto
 
 ### Connecting using ssh being in a different network(LAN)
 
-Try de command:
+Try the command:
 
 ~~~
 ssh dappnode@172.33.0.1
@@ -93,6 +93,19 @@ core.dnp.dappnode.eth
 
 It's possible that you see something like this:
 
-![Reseting dappmanager](../dappnode/img/dappmannager_reseting.jpg "Reseting")
+![Reseting dappmanager](../img/dappmannager_reseting.jpg "Reseting")
 
 Its not an error, the only thing that you have to do is refresh the web. Dappmaner is showing the UI, and it does not advice you when it restarted, then, the UI is like before of restarting.
+
+
+## Wifi
+
+### Error 1
+
+After upgrading the package to 0.25 the docker's container is destroyed.
+
+It appears a error's message saying:
+
+~~~
+2020-12-02T20:35:24.096614000Z [Warning] No interface found. Entering sleep mode.
+~~~

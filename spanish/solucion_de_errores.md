@@ -91,7 +91,7 @@ core.dnp.dappnode.eth
 
 Es posible que se quede como en la imagen siguiente:
 
-![Reseting dappmanager](../dappnode/img/dappmannager_reseting.jpg "Reseting")
+![Reseting dappmanager](../img/dappmannager_reseting.jpg "Reseting")
 
 No es ningún problema, lo único que hay que hacer es volver a cargar la página del navegador. Lo que está pasando es que dappmanager es el encargado de mostrarte la UI, y al reiniciarse no te ha indicado que se ha reiniciado, y queda la UI como estaba antes de reiniciar, por ello hay que recargar la página.
  
