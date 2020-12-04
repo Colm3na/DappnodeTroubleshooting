@@ -18,7 +18,7 @@ Hacemos click en el paquete que nos aparece, llamado Dappnode Exporter. Y hacemo
 
 ![El paquete Node_Exporter](../img/node_exporter_2.png "Instalando el paquete nodeExporter")
 
-Si todo ha ido corriendo verás algo como:
+Si todo ha ido bien verás algo como:
 
 ![El paquete Node_Exporter](../img/node_exporter_3.png "Instalando el paquete nodeExporter")
 
@@ -50,7 +50,7 @@ go_memstats_alloc_bytes 2.561768e+06
 ...
 ~~~
 
-¿Qué es ésto?
+### ¿Qué es ésto?
 Son parámetros que ha recopilado el paquete que hemos instalado, y los está exponiendo con el objetivo de que usando una herramienta como grafana podamos hacer uso de estos datos para hacer monitorización del estado de nuestra máquina. 
 
 El siguiente paso, por tanto, es instalar el paquete Dms de DAppNode.
@@ -65,5 +65,32 @@ Hacemos click sobre él y pulsamos el botón de INSTALL.
 
 ![Instalando el paquete](../img/configuring_dms_2.png " ")
 
+Tras acabar el proceso de instalación aparecerá la siguiente ventana:
 
-Por hacer...
+![Dms instalado](../img/configuring_dms_3.png " ")
+
+En esta ventana de configuración del paquete Dms tenemos varias opciones:
+
+* **Homepage**: Este link te redirigirá a repositorio en github del paquete DMS, https://github.com/dappnode/DMS#readme.
+*  **Ui**: Redirige a la interfaz gráfica de grafana. Más concretamente a la sección de dashboard donde tenemos listados los paneles de monitorización que tenemos.
+*  **Grafana**: Redirige a la página principal de grafana.
+*  **Prometheus-Targets**: Redirige al "otro lado" de prometheus, si bien es cierto que al instalar el paquete node-exporter exponiamos las métricas del dappnode, este cliente de prometheus lo que hace es recoger esas métricas y procesarlas.
+*  **Manager-Status**: Muestra los dockers que estamos monitorizando. Todos estos son recopilados en el dashboard de "dappnode-exporter dashboard".
+
+Tras explicar brevemente qué opciones teníamos,Hacemos click en el link **Ui**. Nos aparecerá la siguiente ventana:
+
+![Dashboards en grafana](../img/configuring_dms_4.png " ")
+
+Haciendo click en dappnode-exporter dashboards aparecen 2 opciones:
+
+* **Docker**: Son las métricas del sistema ,o a nivel software, es decir, cuantos recursos está usando cada uno de los paquetes de nuestro dappnode.
+*  **Host**: Son las métricas de nuestra máquina a nivel "hardware", es decir; uso de memoria RAM, uso de la red, tiempo encendido, uso de la cpu general, espacio libre en disco, etc.
+
+Si hacemos click en cualquier de las opciones, verás algo como ésto:
+
+![dashboard docker](../img/configuring_dms_4.png " ")
+
+Ya tendrías el sistema de monitorización instalado.
+
+En breve trataré de añadir más contenido a esta pequeña guía. 
+Algunas de las cosas más interesantes y útiles que puedes hacer con grafana es Añadir alertas por telegram,email, etc en el caso de que tu máquina tenga problemas.
