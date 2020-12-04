@@ -87,7 +87,7 @@ Clicking on the dappnode-exporter dashboards appears 2 options:
 
 If we click in some of this option, you will se something like:
 
-![dashboard docker](../img/configuring_dms_4.png " ")
+![dashboard docker](../img/configuring_dms_5.png " ")
 
 So this is all for now, you would have finished of installed the monitoring system of your dappnode.
 
