@@ -1,8 +1,12 @@
 # Configuración del paquete Dms
 El objetivo de esta guía es configurar un sistema de monitorización para nuestro DAppNode. 
 
+**Índice**   
+1. [Instalación del paquete DAppNode Exporter](#id1)
+2. [Instalación del paquete DMS](#id2)
+3. [Integración de grafana con Pagerduty](#id3)
 
-## Instalar el paquete Dappnode Exporter
+## Instalación del paquete Dappnode Exporter<a name="id1"></a>
 
 Para instalar el paquete Dappnode Exporter, simplemente escribimos en la barra de búsqueda de la DAppStore:
 
@@ -55,7 +59,7 @@ Son parámetros que ha recopilado el paquete que hemos instalado, y los está ex
 
 El siguiente paso, por tanto, es instalar el paquete Dms de DAppNode.
 
-## Instalando el paquete DMS
+## Instalación del paquete DMS<a name="id2"></a>
 
 Buscamos en la barra del buscador de la DAppStore:
 
@@ -94,3 +98,91 @@ Ya tendrías el sistema de monitorización instalado.
 
 En breve trataré de añadir más contenido a esta pequeña guía. 
 Algunas de las cosas más interesantes y útiles que puedes hacer con grafana es Añadir alertas por telegram,email, etc en el caso de que tu máquina tenga problemas.
+
+
+## Integración de grafana con Pagerduty<a name="id3"></a>
+
+### ¿Qué es Pagerduty y para qué sirve?
+Pagerduty es un gestor de incidentes, que nos permite integrar un sistema de notificaciones, automatizar operaciones entre otras muchas funcionalidades.
+
+Decir que tiene un paquete gratuito, así como otros de pago. Para lo que necesitamos en esta guía con el gratuito tenemos más que de sobra, puedes obtener más información de los paquetes en [su página web](https://www.pagerduty.com/pricing/).
+
+Aquí dejo documentación sobre la plataforma: [Pagerduty](https://support.pagerduty.com/docs/introduction)
+
+Aunque pagerduty ofrece muchísimas posibilidades, en esta guía vamos a empezar con lo más básico, como implementar pagerduty con grafana para que nos gestione las notificaciones de las alertas.
+
+### Creación de una cuenta en PagerDuty
+
+El primer paso sería el de crear una cuenta en Pagerduty, para ello diríjase a [la web de registro](https://www.pagerduty.com/sign-up/), rellenando el siguiente formulario ya estariamos registrados.
+
+![Creación de una cuenta en pagerduty](../img/pagerduty_integration_1.png " ")
+
+Después de haber creado nuestra cuenta nos dirigiremos al dominio que hemos definido en el formulario de registro. En el ejemplo:
+
+~~~
+https://dappnode.pagerduty.com/incidents
+~~~
+
+Si no lo recordais, identificaos en la web de pagerduty y os redirigirá automáticamente.
+
+### Obtención de la INTEGRATION KEY
+
+Para poder integrar pagerduty con grafana necesitamos la **Integration Key**. Para ello hay que hacer varios pasos.
+
+Tras identificarnos por primera vez, deberíamos ver una web como la siguiente:
+
+![Primeros pasos en pagerduty](../img/pagerduty_integration_2.png " ")
+
+Lo primero que vamos a hacer es crear una app, para ello debemos elegir el modo desarrollador, developer mode. Para ello, hacemos click en el icóno de los tres cuadrados con el signo más y elegimos la opción "developer mode". Como en la siguiente imagen.
+
+![Seleccionando developer mode](../img/pagerduty_integration_3.png " ")
+
+Nos aparecerá la opción **Create New App**. La elegimos y nos aparecerá el siguiente formulario:
+
+![Creando una app en pagerduty](../img/pagerduty_integration_4.png " ")
+
+Tras completar el formulario, ahora podrás verlo listado en la página  **My Apps**, dónde le habíamos dado al botón **Create New App**.
+
+![Comprobando que se ha creado la App](../img/pagerduty_integration_5.png " ")
+
+El siguiente paso es editar los datos de la app, hacemos click en ella, y nos aparecerá un nuevo formulario. En él tenemos varios campos, además de los anteriores.
+Lo importante aquí es el apartado de ***Functionality**, seleccionamos Añadir (Add) la funcionalidad de **Events Integration**.
+
+![Añadimos la funcionalidad Events Integration](../img/pagerduty_integration_6.png " ")
+
+Al hacer click abrirá otro formulario para configurar dicha integración, lo único que hacemos es hacer click en el Botón create en la sección **Events Integration Test**. Al hacer click verás algo como ésto:
+
+![Obtenemos la INTEGRATION KEY](../img/pagerduty_integration_7.png " ")
+
+Ahora, copiamos la **Integration Key**, que en mi caso sería:
+~~~
+5e386468b04143378b89ebc55b62266b
+~~~
+
+Guardamos los cambios, haciendo click en Save. Y Save de nuevo en el formulario anterior.
+
+Ya tenemos la Integration Key. El siguiente paso es crear un canal de notificaciones de grafana y configurarlo con pagerduty.
+
+### Creación del canal de notificaciones en grafana (para pagerduty)
+
+Abrimos el grafana de nuestro DAppNode, para ello DAppNode > Packages > UI. [Dappnode grafana](http://dms.dappnode/dashboards).
+
+Elegimos en la barra de la Izquierda la opción Notification channels.
+
+![Notification channels](../img/pagerduty_integration_8.png " ")
+
+Por defecto, veremos que no tenemos ningún canal de notificaciones creado. Hacemos click en el botón **Add Channel** para crear uno.
+
+![Añadiendo un canal de notificaciones](../img/pagerduty_integration_9.png " ")
+
+Nos aparece el siguiente formulario, lo importante aquí es seleccionar en Type = Pagerduty. Y se nos aparecerá la opción de Integration Key, ahí debemos pegar lo que obteníamos en la app creada en pagerduty, en la funcionalidad de events integration.
+
+![Añadiendo un canal de notificaciones](../img/pagerduty_integration_10.png " ")
+
+Las demás opciones puedes ir probando y ver si te interesa añadir alguna.
+Antes de hacer click en Save, haz click en test. 
+
+Deberá aparecerte una notificación en verde, con el texto **Send Notificacion**. Es una prueba de esta notificación, puedes comprobar en el correo que usaste para registrarte en pagerduty que te habrá llegado un email avisándote de que hay un incidente. Si te ha llegado es que está configurado correctamente.
+
+Ahora "solo" quedaría configurar las alertas, es decir, configurar cuándo o bajo que circunstancias se van a enviar estas notificaciones.
+
