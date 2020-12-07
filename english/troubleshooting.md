@@ -98,14 +98,35 @@ It's possible that you see something like this:
 Its not an error, the only thing that you have to do is refresh the web. Dappmaner is showing the UI, and it does not advice you when it restarted, then, the UI is like before of restarting.
 
 
-## Wifi
+## VPN
 
-### Error 1
+### ¿How to generate a new VPN file?
 
-After upgrading the package to 0.25 the docker's container is destroyed.
+In the case you want to reset the vpn conection, follow the next steps. Firstly, from the DAppNode's admin pannel, go to the tab "Devices", and you will see the next image:
 
-It appears a error's message saying:
+![Devices Window](../img/creating_vpn_1.png " ")
 
-~~~
-2020-12-02T20:35:24.096614000Z [Warning] No interface found. Entering sleep mode.
-~~~
+In this section, we have several options:
+
+* **Credentials**: we can obtain the file of the current vpn conection, by a link or a QR code.
+* **Admin**: Give admin permits of the dappnode to the device.
+* **Reset**: Create a new vpn file. (.ovpn)
+* **Remove**: Delete the device configuration.
+
+In this case, we want create a new file, and access with a vpn which uses different credentials. Then, click on **Reset**.
+![Warning Message](../img/creating_vpn_2.png " ")
+
+When we were sure, click on the button Reset. The next step is to select the opción **Credentials** (get link).
+
+In the next window, we have 2 options:
+
+* **Show QR Code**: Doing this will show the QR code. Using the QR scan of our mobile we will obtain the link where we can download the configuration file of the new vpn.
+* Copy the link which appears, or use the righ icon which it will open a window with the link.
+
+Remember, stop using the current vpn to access to the link, if you dont stop using the vpn, it's probablyl that appears a error message in that link. After accesing to the link, the next windows appears:
+
+
+![Download windows](../img/creating_vpn_3.png " ")
+
+Click on the button **Download** and download the file. Set our new vpn connection with this new file and we go the direction [DAppNpde Admin Panel](http://my.dappnode/#/dashboard)
+

@@ -95,3 +95,38 @@ Es posible que se quede como en la imagen siguiente:
 
 No es ningún problema, lo único que hay que hacer es volver a cargar la página del navegador. Lo que está pasando es que dappmanager es el encargado de mostrarte la UI, y al reiniciarse no te ha indicado que se ha reiniciado, y queda la UI como estaba antes de reiniciar, por ello hay que recargar la página.
  
+## VPN
+
+### ¿Como generar una nueva conexión VPN?
+
+En el caso de que desees crear una nueva conexión vpn y deshechar la anterior, la forma de hacerlo es la siguiente. En primer lugar, desde la UI de administrador de Dappnode, vaya a la ventana de "Devices", verá algo como la siguiente imagen:
+
+![Ventana Devices](../img/creating_vpn_1.png " ")
+
+En esta ventana, tenemos varias opciones:
+
+* **Credentials**: Para volver a descargar el archivo de la ovpn o mostrar el QR.
+* **Admin**: Ofrece permisos de administrador del dappnode al dispositivo.
+* **Reset**: Crea un archivo de conexión completamente nuevo de la ovpn.
+* **Remove**: Elimina el dispositivo y su configuración.
+
+En este caso, lo que queremos es generar un archivo nuevo, y acceder con una vpn que utilice unas credenciales diferentes. Por tanto, hacemos click en **Reset**.
+Aparecerá el mensaje siguiente:
+
+![Mensaje de Advertencia](../img/creating_vpn_2.png " ")
+
+*Deberías volver a crear las credenciales del administrador en el caso de que sospeches de que alguien esté teniendo acceso a dichas credenciales. Si ese es el caso, renicialas, PERO descarga e instala las nuevas credenciales INMEDIATAMENTE. De otra manera, perderás el acceso a tu DAppNode cuando la conexión se detenga.*
+
+Una vez estemos seguros, hacemos click en el botón de Reset. Tras esto el siguiente paso es darle a la opción **Credentials** (get link). 
+
+En la ventana siguiente, tenemos dos opciones:
+
+* Hacer click en **Show QR Code**: Lo que nos mostrará un código QR. Usando el escáner QR del teléfono móvil obtendremos un link desde el que descargar el archivo de configuración de la ovpn.
+* Copiar el link que nos muestran. O utiliza el icono de la derecha que te abrirá una nueva ventana con dicho link.
+
+Recuerda que para poder ir al link nuevo que nos han suministrado, debemos desconectarnos de la vpn actual y acceder a dicho link, sino es probable que nos aparezca página no encontrada. Tras acceder a dicho link sin estar conectado a ninguna vpn. Mostrará la ventana siguiente:
+
+![Ventana de Descarga del archivo ovpn](../img/creating_vpn_3.png " ")
+
+En dicha ventana, hacemos click en el botón **Download** y descargamos el archivo.
+Configuramos nuestra nueva conexión VPN con este nuevo archivo y vamos a la dirección [DAppNpde Admin Panel](http://my.dappnode/#/dashboard)
