@@ -127,7 +127,7 @@ Si no lo recordais, identificaos en la web de pagerduty y os redirigirá automá
 
 ### Obtención de la INTEGRATION KEY
 
-Para poder integrar pagerduty con grafana necesitamos la API KEY. Para ello hay que hacer varios pasos. Decir que pagerduty permite muchísimas configuraciones que no vamos a ver aquí, por ello recomiendo una vez más que leas su documentación si estás interesado.
+Para poder integrar pagerduty con grafana necesitamos la **Integration Key**. Para ello hay que hacer varios pasos.
 
 Tras identificarnos por primera vez, deberíamos ver una web como la siguiente:
 
@@ -145,7 +145,7 @@ Tras completar el formulario, ahora podrás verlo listado en la página  **My Ap
 
 ![Comprobando que se ha creado la App](../img/pagerduty_integration_5.png " ")
 
-El siguiente paso es editar los datos de la app, hacemos click en ella, y nos aparecerá un nuevo formulario. En el tenemos varios cambos, además de los anteriores.
+El siguiente paso es editar los datos de la app, hacemos click en ella, y nos aparecerá un nuevo formulario. En él tenemos varios campos, además de los anteriores.
 Lo importante aquí es el apartado de ***Functionality**, seleccionamos Añadir (Add) la funcionalidad de **Events Integration**.
 
 ![Añadimos la funcionalidad Events Integration](../img/pagerduty_integration_6.png " ")
@@ -165,7 +165,7 @@ Ya tenemos la Integration Key. El siguiente paso es crear un canal de notificaci
 
 ### Creación del canal de notificaciones en grafana (para pagerduty)
 
-Abrimos elgrafana de nuestro DAppNode, para ello DAppNode > Packages > UI. [Dappnode grafana](http://dms.dappnode/dashboards).
+Abrimos el grafana de nuestro DAppNode, para ello DAppNode > Packages > UI. [Dappnode grafana](http://dms.dappnode/dashboards).
 
 Elegimos en la barra de la Izquierda la opción Notification channels.
 
@@ -175,14 +175,14 @@ Por defecto, veremos que no tenemos ningún canal de notificaciones creado. Hace
 
 ![Añadiendo un canal de notificaciones](../img/pagerduty_integration_9.png " ")
 
-Nos aparece el siguiente formulario, lo importante aquí es seleccionar en Type = Pagerduty. Y se nos aparecerá la opción de Integration Key, ahñi debemos pegar lo que obteníamos en la app creada en pagerduty, en la funcionalidad de events integration.
+Nos aparece el siguiente formulario, lo importante aquí es seleccionar en Type = Pagerduty. Y se nos aparecerá la opción de Integration Key, ahí debemos pegar lo que obteníamos en la app creada en pagerduty, en la funcionalidad de events integration.
 
 ![Añadiendo un canal de notificaciones](../img/pagerduty_integration_10.png " ")
 
 Las demás opciones puedes ir probando y ver si te interesa añadir alguna.
 Antes de hacer click en Save, haz click en test. 
 
-Deberá aparecerte una notificación en verde, con el texto **Send Notificacion Send**. Es una prueba de esta notificación, puedes comprobar en el correo que usaste para registrarte en pagerduty que te habrá llegado un email avisándote de que hay un incidente. Si te ha llegado es que está configurado correctamente.
+Deberá aparecerte una notificación en verde, con el texto **Send Notificacion**. Es una prueba de esta notificación, puedes comprobar en el correo que usaste para registrarte en pagerduty que te habrá llegado un email avisándote de que hay un incidente. Si te ha llegado es que está configurado correctamente.
 
 Ahora "solo" quedaría configurar las alertas, es decir, configurar cuándo o bajo que circunstancias se van a enviar estas notificaciones.
 

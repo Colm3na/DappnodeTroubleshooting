@@ -1,6 +1,11 @@
 # Configuring Dms Package
 The main objetive of this guide is setting a monitoring system for our DAppNode.
 
+**Index**   
+1. [Installation of the Dappnode Exporter package](#id1)
+2. [Installation of the Dms package](#id2)
+3. [Integración de grafana con Pagerduty](#id3)
+
 ## Installation of the Dappnode Exporter package
 
 In order to install Dappnode Exporter package, you should write in the searching bar of the DAppStore:
@@ -55,7 +60,7 @@ They are parameters what are being recopilated by the package which we have just
 
 The next step, it is installing the Dms package in our DappNode.( This Dms package contains that grafana tool that I mentioned before)
 
-## Installing the Dms package
+## Installation of the Dms package
 
 Search in the navigation bar of the DAppStore:
 
@@ -98,3 +103,91 @@ Some of the most interesting and usefull thinks that ou can do with grafana is a
 I hope this guide will be usefull for some people. 
 
 PD: English is not my first language, sorry if I commited gramar mistakes or something is not well explained. If you have some suggestions, i am glad to read them. 
+
+## Integrations of grafana with Pagerduty<a name="id3"></a>
+
+
+### What is Pagerduty and for what is used?
+
+Pagerdute is a an incident management platform that provides a notification system, let you automatize operations and so many functionalities.
+
+Pagerduty has different packages, the free option is so good. We used the free version for this guide, if you are interested you can look for more information in [his website](https://www.pagerduty.com/pricing/).
+
+[Here](https://support.pagerduty.com/docs/introduction) you can obtain more information abour pagerduty.
+
+Although Pagerduty provides so many functionalities, the objetive of this guide is starting with me most basir part of it, we will implement pagerduty with our grafana in order to manage the grafana alerts.
+
+
+### Creation of an account in Pagerduty
+
+The first step is to create an account in Pagerduty, go to [the register website](https://www.pagerduty.com/sign-up/) and fill the form.
+
+![Creation of one account in Pagerduty](../img/pagerduty_integration_1.png " ")
+
+After creating our account, we can go to the subdomain which we have defined in the form, in my example would be:
+
+~~~
+https://dappnode.pagerduty.com/incidents
+~~~
+
+If you dont remember it, you will be redirected after accessing the login web of pagerduty.
+
+### Obtain the INTEGRATION KEY
+
+If we want to use pagerduty as channel notifications in grafana, we will ne the **Integration Key**. To obtain it we have to follow the next steps. 
+
+After we loggin in the web for the first time, we will ne see the next page:
+
+![First steps in pagerduty](../img/pagerduty_integration_2.png " ")
+
+The first think we will do is creating an app, we have to choose the "developer mode". We can access clicking on the icon with three squares and plus sign, and selecting the option "developer mode". Like we do in the next image.
+
+![Accesing to the developer mode](../img/pagerduty_integration_3.png " ")
+
+The option **Create New App** will be available. We select it and it will emerge the next form:
+
+![Creating an app in pagerduty](../img/pagerduty_integration_4.png " ")
+
+After completing the form, now you can see it in the list in **My Apps** section, where we pressed the button **Create New App** before. Something like this:
+
+![Checking we have created the app](../img/pagerduty_integration_5.png " ")
+
+The next step is edit the data of our app, click on it, and a new form will emerge. In this form we have some known fields and new ones. The important thing here is in the **Functionality** section, we select the **Add** button in the functionality **Events Integration**.
+
+![Add the Events Integrations functionality](../img/pagerduty_integration_6.png " ")
+
+When we click on it, other form will appears to set the integration, the only think which we hae to do is press the button create in the sectión **Events Integration Test**. After cliking on it you will see the fields filled.
+
+![Obtaning the INTEGRATION KEY](../img/pagerduty_integration_7.png " ")
+
+Now, copy the **Integration Key**, in this example would be:
+
+~~~
+5e386468b04143378b89ebc55b62266b
+~~~
+
+Save the changes, clicking on Save button, and once time more.
+
+We have the Integration key. The next step is creating a notification channel in our grafana and set it with pagerduty.
+
+### Creation of the notification channel in grafana (for pagerduty)
+
+Open the grafana of our DAppNode, we do this DAppNode > Packages > UI. [Dappnode grafana](http://dms.dappnode/dashboards).
+
+Choose in the left vertical bar the option Notification channels. Like in the image.
+
+![Notification channels](../img/pagerduty_integration_8.png " ")
+
+By default, we have not a one channel created. W e have to click on the button **Add Channel** to create one.
+
+![Adding a notification channel](../img/pagerduty_integration_9.png " ")
+
+It appears the next form, the important thing here is selecting the Type = Pagerduty. And a new option will be available. In the new field Integration Key, we should paste the Integration Key which we obtained before.
+
+![Añadiendo un canal de notificaciones](../img/pagerduty_integration_10.png " ")
+
+The other options are not obligated, depends of your preferences.  Before clicking on save, try the test button. 
+
+If all went ok, you will see a green notification with the text **Send Notification**. Its a test of a notification, you can check the email which you use it for pagerduty and look for an email from pagerduty. If you received this email, it means that you set well the pagerduty integration.
+
+Now we have to set the alerts,i.e. configure when the alerts will be sent.
