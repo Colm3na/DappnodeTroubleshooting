@@ -4,7 +4,7 @@ The main objetive of this guide is setting a monitoring system for our DAppNode.
 **Index**   
 1. [Installation of the Dappnode Exporter package](#id1)
 2. [Installation of the Dms package](#id2)
-3. [Integración de grafana con Pagerduty](#id3)
+3. [Intallation of Grafana with PagerDuty](#id3)
 
 ## Installation of the Dappnode Exporter package
 
@@ -184,7 +184,7 @@ By default, we have not a one channel created. W e have to click on the button *
 
 It appears the next form, the important thing here is selecting the Type = Pagerduty. And a new option will be available. In the new field Integration Key, we should paste the Integration Key which we obtained before.
 
-![Añadiendo un canal de notificaciones](../img/pagerduty_integration_10.png " ")
+![Adding a notification channel](../img/pagerduty_integration_10.png " ")
 
 The other options are not obligated, depends of your preferences.  Before clicking on save, try the test button. 
 
