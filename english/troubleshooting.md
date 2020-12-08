@@ -130,3 +130,21 @@ Remember, stop using the current vpn to access to the link, if you dont stop usi
 
 Click on the button **Download** and download the file. Set our new vpn connection with this new file and we go the direction [DAppNpde Admin Panel](http://my.dappnode/#/dashboard)
 
+
+### Unstable connection using VPN
+
+If you have problems with the connection of your dapppnode using the vpn, for example, it takes so much time starting the connection or the connection finishes frecuently after beeing connected a while. One possible cause is which the router has problem with upnp functionality. We can try this steps to solve this problem.
+
+Reserve the ip private of our dappnode and forwarding the ports 8092 and 1194.
+
+In order to do this, you have to go the GUI of your router, look for a section called port forwarding, although this depends of your router, you have to search how to do this in your router.
+
+Usually, this windows has options similar to this table:
+
+| Service Name | External Start Port | External End Port | Internal Start Port | Internal End Port | Internal IP address |
+| DAppNode | 1194 | 1194 | 1194 | 1194 | IP-privada-de-tu-dappnode(ejemplo:172.33.10.5) |
+| DAppNode | 8092 | 8092 | 8092 | 8092 | IP-privada-de-tu-dappnode(ejemplo:172.33.10.5) |
+
+We have to fill it like above, what we are doing is redirect all the packages that are received in our router with the port destiny 1194 and 8092 to the ip of our dappnode.
+
+Dont forget reserve the IPP of your dappnode, i.e., in the gui of the router there ir a section which let you assign an IP to X device. This configuration depends how works your router too. Usually, we do this linking a MAC (Physical address) to an private IP(the ip which we want to reserve).

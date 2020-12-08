@@ -130,3 +130,18 @@ Recuerda que para poder ir al link nuevo que nos han suministrado, debemos desco
 
 En dicha ventana, hacemos click en el botón **Download** y descargamos el archivo.
 Configuramos nuestra nueva conexión VPN con este nuevo archivo y vamos a la dirección [DAppNpde Admin Panel](http://my.dappnode/#/dashboard)
+
+### Conexión inestable mediante VPN
+
+Si tienes problemas con la conexión con tu dappnode mediante VPN, es decir, ocupa mucho el tiempo el inicio de conexión o se desconecta con mucha frecuencia tras estar conectado a éste. Una posible causa es que el router al que esta conectado no lidie bien con la función upnp. Se puede hacer lo siguiente para resolver el problema:
+
+Reservar la ip del dappnode y hacer "forwarding" de los puertos 8092 y 11934.
+
+Para hacer ésto debes ir a la GUI de configuración de tu router, buscar un apartado llamado port forwarding, ésto depende de la gui del router.
+En este lugar podrás configurar algo parecido a lo siguiente:
+
+| Service Name | External Start Port | External End Port | Internal Start Port | Internal End Port | Internal IP address |
+| DAppNode | 1194 | 1194 | 1194 | 1194 | IP-privada-de-tu-dappnode(ejemplo:172.33.10.5) |
+| DAppNode | 8092 | 8092 | 8092 | 8092 | IP-privada-de-tu-dappnode(ejemplo:172.33.10.5) |
+
+No se te olvide reservar la IP de tu dappnode, es decir, en el router debe haber un apartado que te permite reservar una ip para x dispositivo. Ésto es algo que también depende de cada router. Normalmente consiste en enlazar una MAC(dirección física) a una dirección IP(la que queremos proporcionarle y reservale).
