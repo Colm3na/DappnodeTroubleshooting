@@ -142,9 +142,11 @@ In order to do this, you have to go the GUI of your router, look for a section c
 Usually, this windows has options similar to this table:
 
 | Service Name | External Start Port | External End Port | Internal Start Port | Internal End Port | Internal IP address |
-| DAppNode | 1194 | 1194 | 1194 | 1194 | IP-privada-de-tu-dappnode(ejemplo:172.33.10.5) |
-| DAppNode | 8092 | 8092 | 8092 | 8092 | IP-privada-de-tu-dappnode(ejemplo:172.33.10.5) |
+| -- | -- | -- | -- | -- | -- |
+| DAppNode | 1194 | 1194 | 1194 | 1194 | IP-privada-de-tu-dappnode(example:172.33.10.5) |
+| DAppNode | 8092 | 8092 | 8092 | 8092 | IP-privada-de-tu-dappnode(exmample:172.33.10.5) |
+|  |  |  |  |  |  |
 
 We have to fill it like above, what we are doing is redirect all the packages that are received in our router with the port destiny 1194 and 8092 to the ip of our dappnode.
 
-Dont forget reserve the IPP of your dappnode, i.e., in the gui of the router there ir a section which let you assign an IP to X device. This configuration depends how works your router too. Usually, we do this linking a MAC (Physical address) to an private IP(the ip which we want to reserve).
+Dont forget reserve the IP of your dappnode, i.e., in the GUI of the router there ir a section which let you assign an IP to X device. This configuration depends how works your router too. Usually, we do this linking a MAC (Physical address) to an private IP(the ip which we want to reserve).
