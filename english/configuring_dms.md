@@ -4,8 +4,9 @@ The main objetive of this guide is setting a monitoring system for our DAppNode.
 **Index**   
 1. [Installation of the Dappnode Exporter package](#id1)
 2. [Installation of the Dms package](#id2)
-3. [Intallation of Grafana with PagerDuty](#id3)
-
+3. [Integration of Grafana with PagerDuty](#id3)
+4. [Creation of alerts in Grafana](#id4)
+   
 ## Installation of the Dappnode Exporter package
 
 In order to install Dappnode Exporter package, you should write in the searching bar of the DAppStore:
@@ -158,7 +159,7 @@ The next step is edit the data of our app, click on it, and a new form will emer
 
 When we click on it, other form will appears to set the integration, the only think which we hae to do is press the button create in the sectión **Events Integration Test**. After cliking on it you will see the fields filled.
 
-![Obtaning the INTEGRATION KEY](../img/pagerduty_integration_7.png " ")
+![Obtaining the INTEGRATION KEY](../img/pagerduty_integration_7.png " ")
 
 Now, copy the **Integration Key**, in this example would be:
 
@@ -190,4 +191,83 @@ The other options are not obligated, depends of your preferences.  Before clicki
 
 If all went ok, you will see a green notification with the text **Send Notification**. Its a test of a notification, you can check the email which you use it for pagerduty and look for an email from pagerduty. If you received this email, it means that you set well the pagerduty integration.
 
-Now we have to set the alerts,i.e. configure when the alerts will be sent.
+Now we have to set the alerts,i.e. it configures when the alerts will be sent.
+
+## 4. Creation of alerts in Grafana
+
+Once we have configured the notification channel in Grafana, we have to set when the notifications will be sent. In this little tutorial, we will set up an basic alert. The example alert wich we will configure is an alert for when the free disk space on our disk is lower than 10 GB.
+
+Firstly, I have to mention grafana only let us to create alerts in a panel that uses graphs. In this case, to avoid modified the dashboard by default of dappnode, we will create a panel for create the alert, for visual purposes we will create 2 rows, one for the monitoring panels and another to "hide" and order de alerts(this is optinal).
+
+We go to the dashboard of the host in grafana, and you will se something like this:
+
+![Access to the host dashboard](../img/creating_an_alert_1.png " ")
+
+This step is optional, but I recommend to do it because it's good to have organized the dashboard content. Click on the create a panel icon (icon in the top mid of the screen). If we press that button, it will appeard this panel:
+
+![Organizing the dashboard](../img/creating_an_alert_2.png " ")
+
+Choose the option **convert to row**. Then, we wil see a new tab in the top of the screen with the name Row tittle, if we click on it hide or show all our panels. We can change his name selecting the wheel of configarations and typing the name we want. I named it Monitoring Panels, and press the buton update.
+
+We repeate the last operation, creating another row and changing his name to Alerts. The result is the next:
+
+![Organizing the dashboard](../img/creating_an_alert_3.png " ")
+
+THen we will create a new panel, but we will select the option **Add new panel** instead. The next image will appear:
+
+![Creating your first alert](../img/creating_an_alert_4.png " ")
+
+On the right side, we can see 3 tabs: Panel, Field and Overrides. We are only interested in for now in Panel tab. Ww will name our panel as "Free disk space alert".
+
+we Click on **visualization** and choose the option Graphs, as we said before we selected this option because is the only one which let us to set up alerts.
+
+Then, go below the graph image. In the tab **query**, we select Prometheus as data provides and we type the next test as query:
+
+~~~
+sum(node_filesystem_free_bytes{mountpoint="/"})
+~~~
+
+You should be able to see the next:
+
+![Creating your first alert](../img/creating_an_alert_5.png " ")
+
+Now we can see the data in the graph, we select the **Alert** tab. We press the button **create alert**. After clicking on it, we have the several options.
+
+### What does it mean every field?
+
+* **Name**: It's the name which you will se when you receive the alert notification.
+* **Evaluate every x for y**: The system takes the data every x time, in the case the alert got triggered, this will be notified only if it continues so for y time. Define what time has to pass and stay to send a notification.
+* **Conditions**: They are the rules where we define when an alert should be sent.
+* **No Data & Error Handling**: We can send alert when there are data error or no data in the graph.
+* **Notifications:** We can select the notification channel which we configured before. Furthermore, we can add a message to explain the alert.
+
+We fill the fields with the next options:
+
+**Name**: <code>Free disk space</code>   **Evaluate every** <code>1m</code> **for** <code>5m</code>
+
+### **Conditions**
+
+**WHEN** <code>last()</code> **OF** <code>query(A,5m,now)</code> **IS BELOW** <code>1073741824</code>
+
+We have defined a rule when the average of the checks of free disk space along the last 5 minutes is lower than 10GB(1073741824 Bytes), the alert will be triggered.
+
+### **No Data & Error Handling**
+
+**If no data or all values are null** **SET STATE TO** <code>No Data</code>
+**If execution error or timeoout** **SET STATE TO** <code>Alerting</code>
+
+**Send to**: you can select the notification channel where you want to receive the alert. For example, if we have configured pagerduty, we select pagerduty.
+**Message**: We can write a message about the alert. It will be shown when you receive the alert.
+
+Te final result is the next:
+
+![Creating your first alert](../img/creating_an_alert_6.png " ")
+
+The last thing you have to do here is confirm all we did pressing the button **Apply** which is on the right corner of the screen. 
+
+After refresh the dashboard page, you should be able to see an heart icon beside the title of the grapfh. Like in this image:
+
+
+![Final result ](../img/creating_an_alert_7.png " ")
+
+If you want more information about how to create alert, i recommend reading the  [Grafana documentacion about creating alerts](https://grafana.com/docs/grafana/latest/alerting/create-alerts/).
