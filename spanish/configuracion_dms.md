@@ -5,6 +5,7 @@ El objetivo de esta guía es configurar un sistema de monitorización para nuest
 1. [Instalación del paquete DAppNode Exporter](#id1)
 2. [Instalación del paquete DMS](#id2)
 3. [Integración de grafana con Pagerduty](#id3)
+4. [Creación de alertas en grafana](#id4)
 
 ## Instalación del paquete Dappnode Exporter<a name="id1"></a>
 
@@ -185,4 +186,90 @@ Antes de hacer click en Save, haz click en test.
 Deberá aparecerte una notificación en verde, con el texto **Send Notificacion**. Es una prueba de esta notificación, puedes comprobar en el correo que usaste para registrarte en pagerduty que te habrá llegado un email avisándote de que hay un incidente. Si te ha llegado es que está configurado correctamente.
 
 Ahora "solo" quedaría configurar las alertas, es decir, configurar cuándo o bajo que circunstancias se van a enviar estas notificaciones.
+
+## 4. Creación de alertas en grafana
+
+Después de configurar el canal de notificaciones en grafana, el siguiente paso es configurar cuándo deben enviarse dichas notificaciones. En este tutorial, vamos a configurar alguna alarma básica. La alarma que vamos a configurar como ejemplo es la de memoria libre en el disco duro, para que cuando tengamos menos capacidad que la indicada nos llegue una notificación informándonos de dicho evento.
+
+Lo primero que hay que decir es que grafana solo permite crear alarmas en paneles del tipo gráficas por lo que no podemos crear la alarma dentro de un panel que no utilice dicha representación, como es el caso. Lo que yo hago es crear una Row dónde coloco el dashboard que se ha instalado por defecto, y otra row donde voy a "esconder" estos paneles con las alarmas.
+
+Nos diririmos al dashboard host en grafana y verás un dashboard como el siguiente:
+
+![Accediendo al dashboard del host](../img/creating_an_alert_1.png " ")
+
+Este paso es opcional, pero recomiemdo hacerlo ya que así tendremos más ordenado todo nuestro dashboard. Hacemos click en el icono de crear un panel (Es el icono que se encuentra más a la izquierda de los que hay en la parte superior-central). Al hacer click sobre él, aparecerá el siguiente panel:
+
+![Organizando el dashboard para crear las alertas](../img/creating_an_alert_2.png " ")
+
+Elegimos la opción convert to row. Entonces, verás que se ha creado en la parte superior una pestaña con el nombre por defecto Row title, que si hacemos click recoge todos los paneles. Pasamos el ratón por encima y seleccionamos el icono de configuración que aparece a su lado, y le cambiamos el nombre a Monitoring Panels o el nombre que prefieras, y presionamos el botón update.
+
+Repetimos la anterior operación, es decir, seleccionamos crear un panel, convert to row y le cambiamos el nombre a Alertas.
+
+Quedaría algo así:
+
+![Organizando el dashboard para crear las alertas](../img/creating_an_alert_3.png " ")
+
+Lo siguiente es crear un panel, y esta vez elegimos la opción Add new panel. Al hacerlo nos abrirá automáticamente la siguiente imagen:
+
+![Creando tu primera alerta](../img/creating_an_alert_4.png " ")
+
+En la columna de la derecha tenemos varias pestañas: Panel, Field y Overrides. De ellas nos interesa unicamente la de Panel. En ella damos nombre a nuestro Panel: Alerta espacio libre en disco.
+
+Hacemos click en visualization y elegimos la opción Graph, elegimos dicha opción porque es la única visualización en la que Grafana nos permite configurar alertas.
+
+Tras ello, nos dirigimos a la parte de abajo de la gráfica. En la pestaña query, elegimos Prometheus como proveedor de datos. Y Abajo en el campo Metrics pegamos la siguiente búsqueda:
+~~~
+sum(node_filesystem_free_bytes{mountpoint="/"})
+~~~
+
+Deberías ver algo como esto:
+
+![Creando tu primera alerta ](../img/creating_an_alert_5.png " ")
+
+Ahora que vemos los datos en la gráfica, seleccionamos la pestaña Alert. Nos aparecerá la opción create alert. La elegimos y se nos mostrarán diferentes opciones para configurar la alerta.
+
+### ¿Qué significa cada campo?
+
+* **Name**: Es el nombre de la alerta, es decir, cuando recibas una notificación provocada por esta alerta, es el nombre con el que la identificarás. Por ejemplo: Poco espacio libre en disco
+* **Evaluate every x for y**: Lo que quiere decir es que cada x tiempo va a recoger el dato de la memoria en disco, en el caso de que haga saltar nuestra regla de la alarma(que definiremos más adelante) se pondrá en estado "pending"(no enviará la noticiación aún), cuando pase y tiempo en dicho estado se alertará sobre el problema. En resumen, defines cuanto tiempo tiene que saltar una alarma para que se te notifique.
+* **Conditions**: Son las reglas que van hacer saltar una alerta.
+* **No Data & Error Handling**: Podemos notificar mediante alertas si lo deseeamos los casos en que haya fallo a la hora de no obtener datos.
+* **Notifications:** Seleccionamos los canales de notificaciones mediante los cuales se notificaran las alertas. También podemos añadir un mensaje detallado que venga acompañado de la alerta generada.
+
+Rellenamos con las siguientes opciones:
+
+**Name**: <code>Espacio libre bajo en disco</code>   **Evaluate every** <code>1m</code> **for** <code>5m</code>
+
+### **Conditions**
+
+**WHEN** <code>last()</code> **OF** <code>query(A,5m,now)</code> **IS BELOW** <code>1073741824</code>
+
+En la regla hemos definido que cuando la media de las comprobaciones del espacio del disco duro durante los últimos 5 minutos sea menor que 10GB(1073741824 Bytes), se activa la alarma.
+
+### **No Data & Error Handling**
+
+**If no data or all values are null** **SET STATE TO** <code>No Data</code>
+**If execution error or timeoout** **SET STATE TO** <code>Alerting</code>
+
+En **Send to** debes seleccionar el canal de notificaciones que desees. Por ejemplo: si hemos configurado pagerduty la elegimos tras clickear en el icono.
+
+En **Message**: Podemos describir un texto más detallado de la alerta. Se mostrará cuando recibamos la alerta.
+
+Quedaría algo como la siguiente imagen:
+
+![Creando tu primera alerta ](../img/creating_an_alert_6.png " ")
+
+Y ya solo quedaría confirmar los cambios presionando el Botón Apply que se encuentra en la esquina superior derecha. Y no olvides confirmar los cambios realizados en el dashboard, es decir, haga click en el icono de guardar cambios, el que se encuentra a la izquierda de la rueda de configuración, en la parte superior central.
+
+Al recargar la página deberías poder ver el panel con un icono de un corazón junto al nombre tal que así:
+
+![El resultado final ](../img/creating_an_alert_7.png " ")
+
+
+Si quieres profundizar en la tarea de crear alertas, recomiendo leer la [Documentación oficial de grafana para crear alertas](https://grafana.com/docs/grafana/latest/alerting/create-alerts/).
+
+
+
+
+
 
