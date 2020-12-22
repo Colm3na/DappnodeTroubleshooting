@@ -5,9 +5,11 @@ The main objetive of this guide is setting a monitoring system for our DAppNode.
 1. [Installation of the Dappnode Exporter package](#id1)
 2. [Installation of the Dms package](#id2)
 3. [Integration of Grafana with PagerDuty](#id3)
-4. [Creation of alerts in Grafana](#id4)
+4. [Integration of Grafana with Telegram](#id4)
+5. [Creation of alerts in Grafana](#id5)
    
-## Installation of the Dappnode Exporter package
+## 1. Installation of the Dappnode Exporter package<a name="id1"></a>
+
 
 In order to install Dappnode Exporter package, you should write in the searching bar of the DAppStore:
 
@@ -61,7 +63,8 @@ They are parameters what are being recopilated by the package which we have just
 
 The next step, it is installing the Dms package in our DappNode.( This Dms package contains that grafana tool that I mentioned before)
 
-## Installation of the Dms package
+## 2. Installation of the Dms package<a name="id2"></a>
+
 
 Search in the navigation bar of the DAppStore:
 
@@ -105,7 +108,7 @@ I hope this guide will be usefull for some people.
 
 PD: English is not my first language, sorry if I commited gramar mistakes or something is not well explained. If you have some suggestions, i am glad to read them. 
 
-## Integrations of grafana with Pagerduty<a name="id3"></a>
+## 3. Integrations of grafana with Pagerduty<a name="id3"></a>
 
 
 ### What is Pagerduty and for what is used?
@@ -193,7 +196,133 @@ If all went ok, you will see a green notification with the text **Send Notificat
 
 Now we have to set the alerts,i.e. it configures when the alerts will be sent.
 
-## 4. Creation of alerts in Grafana
+
+## 4. Integration of Grafana with Telegram<a name="id4"></a>
+
+If we want to use Telegram as notification channel, we have to create a bot telegram. It is a simple process.
+
+The first step is sending a message to the "boss" of the bots, it's called "BotFather", look for him in telegram <code>BotFather</code>.
+
+![Buscamos al usuario BotFather](../img/telegram_integration_1.png " ")
+
+If we type: 
+
+~~~
+/help
+~~~
+
+It shows the different tasks what we can do to manage our bots. To create a bot, we will use:
+
+~~~
+/newbot
+~~~
+
+*Alright, a new bot. How are we going to call it? Please choose a name for your bot.*
+
+It will ask you what name do you want for your bot. 
+In this case, I named <code>nameofmydappnodebot</code>.
+
+You will see the answer:
+
+*Good. Now let's choose a username for your bot. It must end in `bot`. Like this, for example: TetrisBot or tetris_bot.*
+
+Type the name you want for your bot again with the restriction he says, and you will se the something like this successfull message:
+
+~~~
+Done! Congratulations on your new bot. You will find it at t.me/nameofmydappnodebot. You can now add a description, about section and profile picture for your bot, see /help for a list of commands. By the way, when you've finished creating your cool bot, ping our Bot Support if you want a better username for it. Just make sure the bot is fully operational before you do this.
+
+*Use this token to access the HTTP API:
+1377013258:AAFeUCWkKXIAIH5gXD3ImlY7JYV6CiUUDMY
+Keep your token secure and store it safely, it can be used by anyone to control your bot.
+
+For a description of the Bot API, see this page: https://core.telegram.org/bots/api
+~~~
+
+Write down the code named HTTP API, in this example it is <code>1377013258:AAFeUCWkKXIAIH5gXD3ImlY7JYV6CiUUDMY</code>.
+
+This code is what we will use it yo set up our bot. Dont be public this code.
+
+In order to set up Telegram as notification channel, we need this code and a id chat, the next step consists on getting that id chat.
+
+Firstly, we create a telegram group clicking on the top-left icon:
+
+![Creating a telegram group](../img/telegram_integration_2.png " ")
+
+Telegram will ask us who add to the group, we will select our new bot:
+
+![We add the bot to our group we are creating](../img/telegram_integration_3.png " ")
+
+Telegram will ask you what name do you want for your group, in my case <code>Dappnode alerts group</code>. You will see something like the following image:
+
+![We are in the group with the bot](../img/telegram_integration_4.png " ")
+
+Now, write the followring url in the searcher nav: <code>https://api.telegram.org/bot**Here change the HTTP API of our bot**/getUpdates</code>.
+
+In this example, la url stay: <code>https://api.telegram.org/bot**1377013258:AAFeUCWkKXIAIH5gXD3ImlY7JYV6CiUUDMY**/getUpdates</code>
+
+If you go to the direction you will see the next:
+
+![Estaremos ya en un grupo con el bot](../img/telegram_integration_5.png " ")
+
+Type a message with a slash at the start, in the group that you have created:
+
+~~~
+/helloworld
+~~~
+
+After that, visit again the url we went before, and you will see something like the following image:
+
+![Obtaining the chat id](../img/telegram_integration_6.png " ")
+
+Search the following field: <code>"chat":{"id":-446094679</code>, that full name(sign included) is the chat id of our telegram chat in this group. We write down that number.
+
+Now, the next step is configuring the notification channel in grafana.
+
+We have to go to the Grafana of our DAppNode, so we go to DAppNode > Packages > UI. [Dappnode grafana](http://dms.dappnode/dashboards).
+
+On the left bar we select the option Notification Channels.
+
+Click on the option **Add Channel** to create one.
+
+We have to select the type <code>Telegram</code>, and fill the 2 fields that appears (BOT API Token and Chat ID), in our example, this would be:
+
+**BOT API Token**: 1377013258:AAFeUCWkKXIAIH5gXD3ImlY7JYV6CiUUDMY
+**Chat ID**: -446094679
+
+![Configuring the notification channel](../img/telegram_integration_7.png " ")
+
+In order to check if all is well set, click on the option **Send Test**, and we should receive a message in the group we have created before. Dont forget to press de button Save to save changes.
+
+![Cheking if we have receiving the test message](../img/telegram_integration_8.png " ")
+
+Ok, we have set our bot, but I recommend to set up some security options.
+
+By default, our bot can be added to different groups, i.e. , anyone can add it to a group, but that is something that we dont want to.
+
+In order to disable this configuration, we go to our chat with BotFather. And we type:
+
+~~~
+/setjoinsgroups
+~~~
+
+Select the name of your bot or the bot that you want to change this feature. After selecting it, this message appears:
+
+~~~
+Enable - bot can be added to groups.
+Disable - block group invitations, the bot can't be added to groups.
+Current status is: ENABLED
+~~~
+
+As you can see the current status of this feature is ENABLED, we will choose the option Disable. And the following message is showed:
+
+~~~
+Success! The new status is: DISABLED.
+~~~
+
+
+
+
+## 5. Creation of alerts in Grafana<a name="id5"></a>
 
 Once we have configured the notification channel in Grafana, we have to set when the notifications will be sent. In this little tutorial, we will set up an basic alert. The example alert wich we will configure is an alert for when the free disk space on our disk is lower than 10 GB.
 

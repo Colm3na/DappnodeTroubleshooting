@@ -5,9 +5,10 @@ El objetivo de esta guía es configurar un sistema de monitorización para nuest
 1. [Instalación del paquete DAppNode Exporter](#id1)
 2. [Instalación del paquete DMS](#id2)
 3. [Integración de grafana con Pagerduty](#id3)
-4. [Creación de alertas en grafana](#id4)
+4. [Integración de grafana con telegram](#id4)
+5. [Creación de alertas en grafana](#id5)
 
-## Instalación del paquete Dappnode Exporter<a name="id1"></a>
+## 1. Instalación del paquete Dappnode Exporter<a name="id1"></a>
 
 Para instalar el paquete Dappnode Exporter, simplemente escribimos en la barra de búsqueda de la DAppStore:
 
@@ -60,7 +61,7 @@ Son parámetros que ha recopilado el paquete que hemos instalado, y los está ex
 
 El siguiente paso, por tanto, es instalar el paquete Dms de DAppNode.
 
-## Instalación del paquete DMS<a name="id2"></a>
+## 2. Instalación del paquete DMS<a name="id2"></a>
 
 Buscamos en la barra del buscador de la DAppStore:
 
@@ -187,7 +188,129 @@ Deberá aparecerte una notificación en verde, con el texto **Send Notificacion*
 
 Ahora "solo" quedaría configurar las alertas, es decir, configurar cuándo o bajo que circunstancias se van a enviar estas notificaciones.
 
-## 4. Creación de alertas en grafana
+
+## 4. Integración de grafana con telegram<a name="id4"></a>
+
+Para poder utilizar telegram como canal de comunicación, vamos a crear un bot de telegram. Es un proceso muy sencillo.
+
+El primer paso consiste en hablarle al usuario de telegram "BotFather", para ello búscalo en telegram <code>BotFather</code>.
+
+![Buscamos al usuario BotFather](../img/telegram_integration_1.png " ")
+
+Si escribimos:
+~~~
+/help
+~~~
+Nos mostrará distintas tareas que puede hacer. La que nos interesa es la que nos permite crear un bot:
+
+~~~
+/newbot
+~~~
+
+*Alright, a new bot. How are we going to call it? Please choose a name for your bot.*
+
+Te preguntará qué nombre le quieres poner a tu bot. En mi caso le he puesto este nombre para esta prueba <code>nameofmydappnodebot</code>.
+
+Te responderá:
+
+*Good. Now let's choose a username for your bot. It must end in `bot`. Like this, for example: TetrisBot or tetris_bot.*
+
+Pones de nuevo el nombre que has puesto anteriormente, y esta vez te dirá:
+
+~~~
+Done! Congratulations on your new bot. You will find it at t.me/nameofmydappnodebot. You can now add a description, about section and profile picture for your bot, see /help for a list of commands. By the way, when you've finished creating your cool bot, ping our Bot Support if you want a better username for it. Just make sure the bot is fully operational before you do this.
+
+*Use this token to access the HTTP API:
+1377013258:AAFeUCWkKXIAIH5gXD3ImlY7JYV6CiUUDMY
+Keep your token secure and store it safely, it can be used by anyone to control your bot.
+
+For a description of the Bot API, see this page: https://core.telegram.org/bots/api
+~~~
+
+Guarda en algún lugar ese código, HTTP API. Esto es lo que usaremos para poder configurar nuestro bot, no lo hagas público.
+
+Para poder configurar nuestro bot en grafana necesitamos un ID de un chat. Para ello, vamos a crear un grupo y vamos a añadir a nuestro bot. 
+
+En primer lugar, creamos grupo usando el icono que está en la parte superior izquierda:
+
+![Creamos un grupo de telegram](../img/telegram_integration_2.png " ")
+
+Nos pedirá a quien queremos añadir a dicho, grupo, invitamos al bot que hemos creado:
+
+![Añadimos al bot al grupo de telegram que estamos creando](../img/telegram_integration_3.png " ")
+
+Nos pedirá que le pongamos un nombre al grupo, en mi caso <code>Dappnode alerts group</code>. Verás algo como: 
+
+![Estaremos ya en un grupo con el bot](../img/telegram_integration_4.png " ")
+
+Ahora, escribe en tu navegador esta dirección: https://api.telegram.org/bot**Aquí el HTTP API DE NUESTRO BOT**/getUpdates
+
+Con mi ejemplo la url quedaría: <code>https://api.telegram.org/bot**1377013258:AAFeUCWkKXIAIH5gXD3ImlY7JYV6CiUUDMY**/getUpdates</code>
+
+En la url deberás ver algo como:
+
+![Estaremos ya en un grupo con el bot](../img/telegram_integration_5 " ")
+
+Escribe un mensaje en el grupo que has creado:
+
+~~~
+/helloworld
+~~~
+
+Si volvemos a ver la web que hemos visitado anteriormente, veremos algo así:
+
+![Obtenemos el chat ID](../img/telegram_integration_6.png " ")
+
+Buscamos el siguiente campo: "chat":{"id":-446094679, ese número con signo negativo es el chat id de nuestro chat de telegram en este grupo. Anotamos dicho número.
+
+Abrimos el grafana de nuestro DAppNode, para ello DAppNode > Packages > UI. [Dappnode grafana](http://dms.dappnode/dashboards).
+
+Elegimos en la barra de la Izquierda la opción Notification channels.
+
+Hacemos click en el botón **Add Channel** para crear uno.
+
+Seleccionamos en type <code>Telegram</code>. Y rellenamos los 2 campos que aparecen, en nuestro caso de ejemplo sería:
+
+**BOT API Token**: 1377013258:AAFeUCWkKXIAIH5gXD3ImlY7JYV6CiUUDMY
+**Chat ID**: -446094679
+
+![Configuración del canal de notificaciones](../img/telegram_integration_7.png " ")
+
+Quedaría algo así, para comprobar que está bien configurado, hacemos click en el botón Send Test, y deberíamos recibir un mensaje en el grupo que hemos creado. No olvides pulsar el botón de guardar cambios (save).
+
+![Comprobamos que hemos recibido el mensaje de testeo del canal de notificación](../img/telegram_integration_8.png " ")
+
+Pues ya estaría configurado, añadiré varias opciones seguridad que son recomendables configurar.
+
+Tras realizar estos pasos sería recomendable configurar algunas características de nuestro bot:
+
+Por defecto nuestro bot puede ser añadido a diferentes grupos. Es decir, cualquiera puede invitarle a un grupo, pero eso no es lo que queremos.
+
+Para deshabilitar esta configuración, volvemos al chat con "BotFather". Y escribimos:
+
+~~~
+/setjoinsgroups
+~~~
+
+Si Dispones de más de un bot te pedirá que elijas a qué bot quieres configurar esta característica. Lo elijes y te aparecerá el siguiente mensaje:
+
+~~~
+Enable - bot can be added to groups.
+Disable - block group invitations, the bot can't be added to groups.
+Current status is: ENABLED
+~~~
+
+El estado actual aparece como habilitado (Current status is: ENABLED). Elije la opción Disable. 
+Tras elegir la opción, aparecerá el mensaje:
+
+~~~
+Success! The new status is: DISABLED.
+~~~
+
+
+
+
+## 5. Creación de alertas en grafana<a name="id5"></a>
 
 Después de configurar el canal de notificaciones en grafana, el siguiente paso es configurar cuándo deben enviarse dichas notificaciones. En este tutorial, vamos a configurar alguna alarma básica. La alarma que vamos a configurar como ejemplo es la de memoria libre en el disco duro, para que cuando tengamos menos capacidad que la indicada nos llegue una notificación informándonos de dicho evento.
 
