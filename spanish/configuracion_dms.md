@@ -8,7 +8,7 @@ El objetivo de esta guía es configurar un sistema de monitorización para nuest
 4. [Integración de grafana con telegram](#id4)
 5. [Creación de alertas en grafana](#id5)
 
-## Instalación del paquete Dappnode Exporter<a name="id1"></a>
+## 1. Instalación del paquete Dappnode Exporter<a name="id1"></a>
 
 Para instalar el paquete Dappnode Exporter, simplemente escribimos en la barra de búsqueda de la DAppStore:
 
@@ -61,7 +61,7 @@ Son parámetros que ha recopilado el paquete que hemos instalado, y los está ex
 
 El siguiente paso, por tanto, es instalar el paquete Dms de DAppNode.
 
-## Instalación del paquete DMS<a name="id2"></a>
+## 2. Instalación del paquete DMS<a name="id2"></a>
 
 Buscamos en la barra del buscador de la DAppStore:
 
@@ -189,13 +189,13 @@ Deberá aparecerte una notificación en verde, con el texto **Send Notificacion*
 Ahora "solo" quedaría configurar las alertas, es decir, configurar cuándo o bajo que circunstancias se van a enviar estas notificaciones.
 
 
-## 4. Integración de grafana con telegram
+## 4. Integración de grafana con telegram<a name="id4"></a>
 
 Para poder utilizar telegram como canal de comunicación, vamos a crear un bot de telegram. Es un proceso muy sencillo.
 
 El primer paso consiste en hablarle al usuario de telegram "BotFather", para ello búscalo en telegram <code>BotFather</code>.
 
-![Buscamos al usuario BotFather](../img/telegram_integration_1 " ")
+![Buscamos al usuario BotFather](../img/telegram_integration_1.png " ")
 
 Si escribimos:
 ~~~
@@ -233,15 +233,15 @@ Para poder configurar nuestro bot en grafana necesitamos un ID de un chat. Para 
 
 En primer lugar, creamos grupo usando el icono que está en la parte superior izquierda:
 
-![Creamos un grupo de telegram](../img/telegram_integration_2 " ")
+![Creamos un grupo de telegram](../img/telegram_integration_2.png " ")
 
 Nos pedirá a quien queremos añadir a dicho, grupo, invitamos al bot que hemos creado:
 
-![Añadimos al bot al grupo de telegram que estamos creando](../img/telegram_integration_3 " ")
+![Añadimos al bot al grupo de telegram que estamos creando](../img/telegram_integration_3.png " ")
 
 Nos pedirá que le pongamos un nombre al grupo, en mi caso <code>Dappnode alerts group</code>. Verás algo como: 
 
-![Estaremos ya en un grupo con el bot](../img/telegram_integration_4 " ")
+![Estaremos ya en un grupo con el bot](../img/telegram_integration_4.png " ")
 
 Ahora, escribe en tu navegador esta dirección: https://api.telegram.org/bot**Aquí el HTTP API DE NUESTRO BOT**/getUpdates
 
@@ -259,7 +259,7 @@ Escribe un mensaje en el grupo que has creado:
 
 Si volvemos a ver la web que hemos visitado anteriormente, veremos algo así:
 
-![Obtenemos el chat ID](../img/telegram_integration_6 " ")
+![Obtenemos el chat ID](../img/telegram_integration_6.png " ")
 
 Buscamos el siguiente campo: "chat":{"id":-446094679, ese número con signo negativo es el chat id de nuestro chat de telegram en este grupo. Anotamos dicho número.
 
@@ -274,11 +274,11 @@ Seleccionamos en type <code>Telegram</code>. Y rellenamos los 2 campos que apare
 **BOT API Token**: 1377013258:AAFeUCWkKXIAIH5gXD3ImlY7JYV6CiUUDMY
 **Chat ID**: -446094679
 
-![Configuración del canal de notificaciones](../img/telegram_integration_7 " ")
+![Configuración del canal de notificaciones](../img/telegram_integration_7.png " ")
 
 Quedaría algo así, para comprobar que está bien configurado, hacemos click en el botón Send Test, y deberíamos recibir un mensaje en el grupo que hemos creado. No olvides pulsar el botón de guardar cambios (save).
 
-![Comprobamos que hemos recibido el mensaje de testeo del canal de notificación](../img/telegram_integration_8 " ")
+![Comprobamos que hemos recibido el mensaje de testeo del canal de notificación](../img/telegram_integration_8.png " ")
 
 Pues ya estaría configurado, añadiré varias opciones seguridad que son recomendables configurar.
 
@@ -310,7 +310,7 @@ Success! The new status is: DISABLED.
 
 
 
-## 4. Creación de alertas en grafana
+## 5. Creación de alertas en grafana<a name="id5"></a>
 
 Después de configurar el canal de notificaciones en grafana, el siguiente paso es configurar cuándo deben enviarse dichas notificaciones. En este tutorial, vamos a configurar alguna alarma básica. La alarma que vamos a configurar como ejemplo es la de memoria libre en el disco duro, para que cuando tengamos menos capacidad que la indicada nos llegue una notificación informándonos de dicho evento.
 

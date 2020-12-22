@@ -8,7 +8,8 @@ The main objetive of this guide is setting a monitoring system for our DAppNode.
 4. [Integration of Grafana with Telegram](#id4)
 5. [Creation of alerts in Grafana](#id5)
    
-## 1. Installation of the Dappnode Exporter package
+## 1. Installation of the Dappnode Exporter package<a name="id1"></a>
+
 
 In order to install Dappnode Exporter package, you should write in the searching bar of the DAppStore:
 
@@ -62,7 +63,8 @@ They are parameters what are being recopilated by the package which we have just
 
 The next step, it is installing the Dms package in our DappNode.( This Dms package contains that grafana tool that I mentioned before)
 
-## 2. Installation of the Dms package
+## 2. Installation of the Dms package<a name="id2"></a>
+
 
 Search in the navigation bar of the DAppStore:
 
@@ -195,13 +197,13 @@ If all went ok, you will see a green notification with the text **Send Notificat
 Now we have to set the alerts,i.e. it configures when the alerts will be sent.
 
 
-## 4. Integration of Grafana with Telegram<a name="id5"></a>
+## 4. Integration of Grafana with Telegram<a name="id4"></a>
 
 If we want to use Telegram as notification channel, we have to create a bot telegram. It is a simple process.
 
 The first step is sending a message to the "boss" of the bots, it's called "BotFather", look for him in telegram <code>BotFather</code>.
 
-![Buscamos al usuario BotFather](../img/telegram_integration_1 " ")
+![Buscamos al usuario BotFather](../img/telegram_integration_1.png " ")
 
 If we type: 
 
@@ -244,15 +246,15 @@ In order to set up Telegram as notification channel, we need this code and a id 
 
 Firstly, we create a telegram group clicking on the top-left icon:
 
-![Creating a telegram group](../img/telegram_integration_2 " ")
+![Creating a telegram group](../img/telegram_integration_2.png " ")
 
 Telegram will ask us who add to the group, we will select our new bot:
 
-![We add the bot to our group we are creating](../img/telegram_integration_3 " ")
+![We add the bot to our group we are creating](../img/telegram_integration_3.png " ")
 
 Telegram will ask you what name do you want for your group, in my case <code>Dappnode alerts group</code>. You will see something like the following image:
 
-![We are in the group with the bot](../img/telegram_integration_4 " ")
+![We are in the group with the bot](../img/telegram_integration_4.png " ")
 
 Now, write the followring url in the searcher nav: <code>https://api.telegram.org/bot**Here change the HTTP API of our bot**/getUpdates</code>.
 
@@ -260,7 +262,7 @@ In this example, la url stay: <code>https://api.telegram.org/bot**1377013258:AAF
 
 If you go to the direction you will see the next:
 
-![Estaremos ya en un grupo con el bot](../img/telegram_integration_5 " ")
+![Estaremos ya en un grupo con el bot](../img/telegram_integration_5.png " ")
 
 Type a message with a slash at the start, in the group that you have created:
 
@@ -270,7 +272,7 @@ Type a message with a slash at the start, in the group that you have created:
 
 After that, visit again the url we went before, and you will see something like the following image:
 
-![Obtaining the chat id](../img/telegram_integration_6 " ")
+![Obtaining the chat id](../img/telegram_integration_6.png " ")
 
 Search the following field: <code>"chat":{"id":-446094679</code>, that full name(sign included) is the chat id of our telegram chat in this group. We write down that number.
 
@@ -287,11 +289,11 @@ We have to select the type <code>Telegram</code>, and fill the 2 fields that app
 **BOT API Token**: 1377013258:AAFeUCWkKXIAIH5gXD3ImlY7JYV6CiUUDMY
 **Chat ID**: -446094679
 
-![Configuring the notification channel](../img/telegram_integration_7 " ")
+![Configuring the notification channel](../img/telegram_integration_7.png " ")
 
 In order to check if all is well set, click on the option **Send Test**, and we should receive a message in the group we have created before. Dont forget to press de button Save to save changes.
 
-![Cheking if we have receiving the test message](../img/telegram_integration_8 " ")
+![Cheking if we have receiving the test message](../img/telegram_integration_8.png " ")
 
 Ok, we have set our bot, but I recommend to set up some security options.
 
